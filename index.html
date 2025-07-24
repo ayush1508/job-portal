@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Portal System</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #229954;
+        }
+
+        main {
+            padding: 2rem 0;
+        }
+
+        .section {
+            background: white;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .job-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            background: white;
+            transition: box-shadow 0.3s;
+        }
+
+        .job-card:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .job-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .job-company {
+            color: #7f8c8d;
+            margin-bottom: 0.5rem;
+        }
+
+        .job-location {
+            color: #27ae60;
+            margin-bottom: 0.5rem;
+        }
+
+        .job-salary {
+            color: #e67e22;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .job-description {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        .job-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .search-filters input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3498db;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            margin-top: 0.5rem;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 1rem;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+        }
+
+        .pagination button.active {
+            background: #3498db;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .search-filters {
+                flex-direction: column;
+            }
+
+            .job-actions {
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Job Portal System</div>
+                <div class="nav-buttons">
+                    <div id="guest-nav">
+                        <button class="btn btn-primary" onclick="showLogin()">Login</button>
+                        <button class="btn btn-secondary" onclick="showRegister()">Register</button>
+                    </div>
+                    <div id="user-nav" class="hidden">
+                        <span id="user-welcome"></span>
+                        <button class="btn btn-secondary" onclick="logout()">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- Alert Messages -->
+            <div id="alert-container"></div>
+
+            <!-- Login Section -->
+            <div id="login-section" class="section hidden">
+                <h2>Login</h2>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-username">Username:</label>
+                        <input type="text" id="login-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password:</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="button" class="btn btn-secondary" onclick="showJobList()">Cancel</button>
+                </form>
+            </div>
+
+            <!-- Register Section -->
+            <div id="register-section" class="section hidden">
+                <h2>Register</h2>
+                <form id="register-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reg-username">Username:</label>
+                            <input type="text" id="reg-username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-email">Email:</label>
+                            <input type="email" id="reg-email" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reg-password">Password:</label>
+                            <input type="password" id="reg-password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-user-type">User Type:</label>
+                            <select id="reg-user-type" required>
+                                <option value="">Select Type</option>
+                                <option value="job_seeker">Job Seeker</option>
+                                <option value="employer">Employer</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reg-full-name">Full Name:</label>
+                            <input type="text" id="reg-full-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-phone">Phone:</label>
+                            <input type="text" id="reg-phone">
+                        </div>
+                    </div>
+                    <div class="form-group" id="company-field" style="display: none;">
+                        <label for="reg-company">Company Name:</label>
+                        <input type="text" id="reg-company">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                    <button type="button" class="btn btn-secondary" onclick="showJobList()">Cancel</button>
+                </form>
+            </div>
+
+            <!-- Job List Section -->
+            <div id="job-list-section" class="section">
+                <h2>Available Jobs</h2>
+                <div class="search-filters">
+                    <input type="text" id="search-input" placeholder="Search jobs...">
+                    <input type="text" id="location-filter" placeholder="Location...">
+                    <button class="btn btn-primary" onclick="searchJobs()">Search</button>
+                    <button class="btn btn-secondary" onclick="clearFilters()">Clear</button>
+                </div>
+                <div id="jobs-container">
+                    <!-- Jobs will be loaded here -->
+                </div>
+                <div id="jobs-pagination" class="pagination"></div>
+            </div>
+
+            <!-- Employer Dashboard -->
+            <div id="employer-dashboard" class="section hidden">
+                <h2>Employer Dashboard</h2>
+                <div class="form-row">
+                    <button class="btn btn-primary" onclick="showPostJob()">Post New Job</button>
+                    <button class="btn btn-secondary" onclick="showMyJobs()">My Jobs</button>
+                </div>
+
+                <!-- Post Job Form -->
+                <div id="post-job-form" class="hidden" style="margin-top: 2rem;">
+                    <h3>Post New Job</h3>
+                    <form id="job-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="job-title">Job Title:</label>
+                                <input type="text" id="job-title" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="job-location">Location:</label>
+                                <input type="text" id="job-location" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="job-salary">Salary:</label>
+                            <input type="text" id="job-salary" placeholder="e.g., $50,000 - $70,000">
+                        </div>
+                        <div class="form-group">
+                            <label for="job-description">Job Description:</label>
+                            <textarea id="job-description" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="job-requirements">Requirements:</label>
+                            <textarea id="job-requirements"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">Post Job</button>
+                        <button type="button" class="btn btn-secondary" onclick="hidePostJob()">Cancel</button>
+                    </form>
+                </div>
+
+                <!-- My Jobs List -->
+                <div id="my-jobs-list" class="hidden" style="margin-top: 2rem;">
+                    <h3>My Job Postings</h3>
+                    <div id="employer-jobs-container">
+                        <!-- Employer's jobs will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Seeker Dashboard -->
+            <div id="job-seeker-dashboard" class="section hidden">
+                <h2>Job Seeker Dashboard</h2>
+                <button class="btn btn-primary" onclick="showMyApplications()">My Applications</button>
+
+                <!-- My Applications -->
+                <div id="my-applications" class="hidden" style="margin-top: 2rem;">
+                    <h3>My Applications</h3>
+                    <div id="applications-container">
+                        <!-- Applications will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Dashboard -->
+            <div id="admin-dashboard" class="section hidden">
+                <h2>Admin Dashboard</h2>
+                
+                <!-- Stats -->
+                <div id="admin-stats" class="stats-grid">
+                    <!-- Stats will be loaded here -->
+                </div>
+
+                <!-- Admin Navigation -->
+                <div class="form-row">
+                    <button class="btn btn-primary" onclick="showAllUsers()">Manage Users</button>
+                    <button class="btn btn-secondary" onclick="showAllJobs()">Manage Jobs</button>
+                    <button class="btn btn-secondary" onclick="showAllApplications()">View Applications</button>
+                </div>
+
+                <!-- Users Management -->
+                <div id="admin-users" class="hidden" style="margin-top: 2rem;">
+                    <h3>All Users</h3>
+                    <div id="admin-users-container">
+                        <!-- Users will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Jobs Management -->
+                <div id="admin-jobs" class="hidden" style="margin-top: 2rem;">
+                    <h3>All Jobs</h3>
+                    <div id="admin-jobs-container">
+                        <!-- Jobs will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Applications Management -->
+                <div id="admin-applications" class="hidden" style="margin-top: 2rem;">
+                    <h3>All Applications</h3>
+                    <div id="admin-applications-container">
+                        <!-- Applications will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Application Modal -->
+            <div id="apply-modal" class="section hidden">
+                <h2>Apply for Job</h2>
+                <div id="apply-job-details"></div>
+                <form id="apply-form">
+                    <div class="form-group">
+                        <label for="cover-letter">Cover Letter:</label>
+                        <textarea id="cover-letter" placeholder="Tell us why you're interested in this position..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success">Submit Application</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideApplyModal()">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Global variables
+        let currentUser = null;
+        let currentPage = 1;
+        let currentJobId = null;
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthStatus();
+            loadJobs();
+            
+            // Form event listeners
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
+            document.getElementById('register-form').addEventListener('submit', handleRegister);
+            document.getElementById('job-form').addEventListener('submit', handlePostJob);
+            document.getElementById('apply-form').addEventListener('submit', handleApplyJob);
+            
+            // User type change listener
+            document.getElementById('reg-user-type').addEventListener('change', function() {
+                const companyField = document.getElementById('company-field');
+                if (this.value === 'employer') {
+                    companyField.style.display = 'block';
+                } else {
+                    companyField.style.display = 'none';
+                }
+            });
+        });
+
+        // Utility functions
+        function showAlert(message, type = 'success') {
+            const alertContainer = document.getElementById('alert-container');
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        function hideAllSections() {
+            const sections = ['login-section', 'register-section', 'employer-dashboard', 
+                            'job-seeker-dashboard', 'admin-dashboard', 'apply-modal'];
+            sections.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+        }
+
+        function showSection(sectionId) {
+            hideAllSections();
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+
+        // Authentication functions
+        async function checkAuthStatus() {
+            try {
+                const response = await fetch('/api/profile', {
+                    credentials: 'include'
+                });
+                
+                if (response.ok) {
+                    currentUser = await response.json();
+                    updateNavigation();
+                    showDashboard();
+                } else {
+                    currentUser = null;
+                    updateNavigation();
+                }
+            } catch (error) {
+                console.error('Auth check failed:', error);
+                currentUser = null;
+                updateNavigation();
+            }
+        }
+
+        function updateNavigation() {
+            const guestNav = document.getElementById('guest-nav');
+            const userNav = document.getElementById('user-nav');
+            const userWelcome = document.getElementById('user-welcome');
+
+            if (currentUser) {
+                guestNav.classList.add('hidden');
+                userNav.classList.remove('hidden');
+                userWelcome.textContent = `Welcome, ${currentUser.full_name} (${currentUser.user_type})`;
+            } else {
+                guestNav.classList.remove('hidden');
+                userNav.classList.add('hidden');
+            }
+        }
+
+        function showDashboard() {
+            if (!currentUser) return;
+
+            switch (currentUser.user_type) {
+                case 'employer':
+                    showSection('employer-dashboard');
+                    break;
+                case 'job_seeker':
+                    showSection('job-seeker-dashboard');
+                    break;
+                case 'admin':
+                    showSection('admin-dashboard');
+                    loadAdminStats();
+                    break;
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    currentUser = data.user;
+                    showAlert('Login successful!');
+                    updateNavigation();
+                    showDashboard();
+                    document.getElementById('login-form').reset();
+                } else {
+                    showAlert(data.error, 'error');
+                }
+            } catch (error) {
+                showAlert('Login failed. Please try again.', 'error');
+            }
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            
+            const formData = {
+                username: document.getElementById('reg-username').value,
+                email: document.getElementById('reg-email').value,
+                password: document.getElementById('reg-password').value,
+                user_type: document.getElementById('reg-user-type').value,
+                full_name: document.getElementById('reg-full-name').value,
+                phone: document.getElementById('reg-phone').value,
+                company_name: document.getElementById('reg-company').value
+            };
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showAlert('Registration successful! Please login.');
+                    showLogin();
+                    document.getElementById('register-form').reset();
+                } else {
+                    showAlert(data.error, 'error');
+                }
+            } catch (error) {
+                showAlert('Registration failed. Please try again.', 'error');
+            }
+        }
+
+        async function logout() {
+            try {
+                await fetch('/api/logout', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                
+                currentUser = null;
+                updateNavigation();
+                showJobList();
+                showAlert('Logged out successfully!');
+            } catch (error) {
+                showAlert('Logout failed.', 'error');
+            }
+        }
+
+        // Navigation functions
+        function showLogin() {
+            showSection('login-section');
+        }
+
+        function showRegister() {
+            showSection('register-section');
+        }
+
+        function showJobList() {
+            hideAllSections();
+            document.getElementById('job-list-section').classList.remove('hidden');
+            loadJobs();
+        }
+
+        // Job functions
+        async function loadJobs(page = 1, search = '', location = '') {
+            try {
+                const params = new URLSearchParams({
+                    page: page,
+                    per_page: 10,
+                    search: search,
+                    location: location
+                });
+
+                const response = await fetch(`/api/jobs?${params}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayJobs(data.jobs);
+                    displayPagination(data.current_page, data.pages);
+                } else {
+                    showAlert('Failed to load jobs.', 'error');
+                }
+            } catch (error) {
+                showAlert('Failed to load jobs.', 'error');
+            }
+        }
+
+        function displayJobs(jobs) {
+            const container = document.getElementById('jobs-container');
+            
+            if (jobs.length === 0) {
+                container.innerHTML = '<p>No jobs found.</p>';
+                return;
+            }
+
+            container.innerHTML = jobs.map(job => `
+                <div class="job-card">
+                    <div class="job-title">${job.title}</div>
+                    <div class="job-company">${job.employer_name || 'Company'}</div>
+                    <div class="job-location">📍 ${job.location}</div>
+                    ${job.salary ? `<div class="job-salary">💰 ${job.salary}</div>` : ''}
+                    <div class="job-description">${job.description.substring(0, 200)}...</div>
+                    <div class="job-actions">
+                        <button class="btn btn-primary" onclick="viewJobDetails(${job.id})">View Details</button>
+                        ${currentUser && currentUser.user_type === 'job_seeker' ? 
+                            `<button class="btn btn-success" onclick="showApplyModal(${job.id})">Apply</button>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayPagination(currentPage, totalPages) {
+            const container = document.getElementById('jobs-pagination');
+            
+            if (totalPages <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+
+            let pagination = '';
+            
+            for (let i = 1; i <= totalPages; i++) {
+                pagination += `<button class="${i === currentPage ? 'active' : ''}" onclick="loadJobs(${i})">${i}</button>`;
+            }
+            
+            container.innerHTML = pagination;
+        }
+
+        function searchJobs() {
+            const search = document.getElementById('search-input').value;
+            const location = document.getElementById('location-filter').value;
+            loadJobs(1, search, location);
+        }
+
+        function clearFilters() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('location-filter').value = '';
+            loadJobs(1);
+        }
+
+        async function viewJobDetails(jobId) {
+            try {
+                const response = await fetch(`/api/jobs/${jobId}`);
+                const job = await response.json();
+
+                if (response.ok) {
+                    alert(`Job: ${job.title}\nCompany: ${job.employer_name}\nLocation: ${job.location}\nSalary: ${job.salary || 'Not specified'}\n\nDescription:\n${job.description}\n\nRequirements:\n${job.requirements || 'None specified'}`);
+                } else {
+                    showAlert('Failed to load job details.', 'error');
+                }
+            } catch (error) {
+                showAlert('Failed to load job details.', 'error');
+            }
+        }
+
+        // Employer functions
+        function showPostJob() {
+            document.getElementById('post-job-form').classList.remove('hidden');
+            document.getElementById('my-jobs-list').classList.add('hidden');
+        }
+
+        function hidePostJob() {
+            document.getElementById('post-job-form').classList.add('hidden');
+            document.getElementById('job-form').reset();
+        }
+
+        async function handlePostJob(e) {
+            e.preventDefault();
+            
+            const jobData = {
+                title: document.getElementById('job-title').value,
+                location: document.getElementById('job-location').value,
+                salary: document.getElementById('job-salary').value,
+                description: document.getElementById('job-description').value,
+                requirements: document.getElementById('job-requirements').value
+            };
+
+            try {
+                const response = await fetch('/api/jobs', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(jobData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showAlert('Job posted successfully!');
+                    hidePostJob();
+                    showMyJobs();
+                } else {
+                    showAlert(data.error, 'error');
+                }
+            } catch (error) {
+                showAlert('Failed to post job.', 'error');
+            }
+        }
+
+        async function showMyJobs() {
+            document.getElementById('post-job-form').classList.add('hidden');
+            document.getElementById('my-jobs-list').classList.remove('hidden');
+
+            try {
+                const response = await fetch('/api/my-jobs', {
+                    credentials: 'include'
+                });
+                const jobs = await response.json();
+
+                if (response.ok) {
+                    displayEmployerJobs(jobs);
+                } else {
+                    showAlert('Failed to load your jobs.', 'error');
+                }
+            } catch (error) {
+                showAlert('Failed to load your jobs.', 'error');
+            }
+        }
+
+        function displayEmployerJobs(jobs) {
+            const container = document.getElementById('employer-jobs-container');
+            
+            if (jobs.length === 0) {
+                container.innerHTML = '<p>You haven\'t posted any jobs yet.</p>';
+                return;
+            }
+
+            container.innerHTML = jobs.map(job => `
+                <div class="job-card">
+                    <div class="job-title">${job.title}</div>
+                    <div class="job-location">📍 ${job.location}</div>
+                    ${job.salary ? `<div class="job-salary">💰 ${job.salary}</div>` : ''}
+                    <div class="job-description">${job.description.substring(0, 200)}...</div>
+                    <div class="job-actions">
+                        <button class="btn btn-primary" onclick="viewJobApplications(${job.id})">View Applications</button>
+                        <button class="btn btn-danger" onclick="deleteJob(${job.id})">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function deleteJob(jobId) {
+            if (!confirm('Are you sure you want to delete this job?')) return;
+
+            try {
+                const response = await fetch(`/api/jobs/${jobId}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    showAlert('Job deleted successfully!');
+                    showMyJobs();
+                } else {
+                    showAlert('Failed to delete job.', 'error');
+                }
+            } catch (error) {
+                showAlert('Failed to delete job.', 'error');
+            }
+        }
+
+        async function viewJobApplications(jobId) {
+            try {
+                const response = await fetch(`/api/jobs/${jobId}/applications`, {
+                    credentials: 'include'
+                });
+                const applications = await response.json();
+
+                if (response.ok) {
+                    if (applications.length === 0) {
+                        alert('No applications received for this job yet.');
+                    } else {
+                        const appList = applications.map(app => 
+                            `Applicant: ${app.applicant_name}\nApplied: ${new Date(app.applied_at).toLocaleDateString()}\nStatus: ${app.status}\nCover Letter: ${app.cover_letter || 'None'}`
+                        ).join('\n\n---\n\n');
+                        alert(`Applications:\n\n${appList}`);
+                    }
+                } else {
+                    showAlert('Failed to load applications.', 'error');
+                }
+            } catch (error) {
+                showAlert('Failed to load applications.', 'error');
+            }
+        }
+
+        // Job Seeker functions
+        function showApplyModal(jobId) {
+            if (!currentUser || currentUser.user_type !== 'job_seeker') {
+                showAlert('Please login as a job seeker to apply.', 'error');
+                return;
+            }
+
+            currentJobId = jobId;
+            showSection('apply-modal');
+            
+            // Load job details for the modal
+            fetch(`/api/jobs/${jobId}`)
+                .then(response => response.json())
+                .then(job => {
+                    document.getElementById('apply-job-details').innerHTML = `
+                        <h3>${job.title}</h3>
+                        <p><strong>Company:</strong> ${job.employer_name}</p>
+                        <p><strong>Location:</strong> ${job.location}</p>
+                        <p><strong>Salary:</strong> ${job.salary || 'Not specified'}</p>
+                    `;
+                });
+        }
+
+        function hideApplyModal() {
+            showJobList();
+            document.getElementById('apply-form').reset();
+            currentJobId = null;
+        }
+
+        async function handleApplyJob(e) {
+            e.preventDefault();
+            
+            const applicationData = {
+                cover_letter: document.getElementById('cover-letter').value
+            };
+
+            try {
+                const response = await fetch(`/api/jobs/${currentJobId}/apply`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(applicationData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showAlert('Application submitted successfully!');
+                    hideApplyModal();
+                } else {
+                    showAlert(data.error, 'error');
+                }
+            } catch (error) {
+                showAlert('Failed to submit application.', 'error');
+            }
+        }
+
+        async function showMyApplications() {
+            document.getElementById('my-applications').classList.remove('hidden');
+
+            try {
+                const response = await fetch('/api/my-applications', {
+                    credentials: 'include'
+                });
+                const applications = await response.json();
+
+                if (response.ok) {
+                    displayMyApplications(applications);
+                } else {
+                    showAlert('Failed to load your applications.', 'error');
+                }
+            } catch (error) {
+                showAlert('Failed to load your applications.', 'error');
+            }
+        }
+
+        function displayMyApplications(applications) {
+            const container = document.getElementById('applications-container');
+            
+            if (applications.length === 0) {
+                container.innerHTML = '<p>You haven\'t applied to any jobs yet.</p>';
+                return;
+            }
+
+            container.innerHTML = applications.map(app => `
+                <div class="job-card">
+                    <div class="job-title">${app.job_title}</div>
+                    <div class="job-company">Applied: ${new Date(app.applied_at).toLocaleDateString()}</div>
+                    <div class="job-location">Status: <strong>${app.status}</strong></div>
+                    ${app.cover_letter ? `<div class="job-description">Cover Letter: ${app.cover_letter.substring(0, 200)}...</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Admin functions
+        async function loadAdminStats() {
+            try {
+                const response = await fetch('/api/admin/dashboard', {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayAdminStats(data.stats);
+                } else {
+                    showAlert('Failed to load admin stats.', 'error');
+                }
+            } catch (error) {
+                showAlert('Failed to load admin stats.', 'error');
+            }
+        }
+
+        function displayAdminStats(stats) {
+            const container = document.getElementById('admin-stats');
+            container.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number">${stats.total_users}</div>
+                    <div class="stat-label">Total Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.total_employers}</div>
+                    <div class="stat-label">Employers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.total_job_seekers}</div>
+                    <div class="stat-label">Job Seekers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.active_jobs}</div>
+                    <div class="stat-label">Active Jobs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.total_applications}</div>
+                    <div class="stat-label">Applications</div>
+                </div>
+            `;
+        }
+
+        async function showAllUsers() {
+            document.getElementById('admin-users').classList.remove('hidden');
+            document.getElementById('admin-jobs').classList.add('hidden');
+            document.getElementById('admin-applications').classList.add('hidden');
+
+            try {
+                const response = await fetch('/api/admin/users', {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayAdminUsers(data.users);
+                } else {
+                    showAlert('Failed to load users.', 'error');
+                }
+            } catch (error) {
+                showAlert('Failed to load users.', 'error');
+            }
+        }
+
+        function displayAdminUsers(users) {
+            const container = document.getElementById('admin-users-container');
+            
+            container.innerHTML = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Type</th>
+                            <th>Full Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${users.map(user => `
+                            <tr>
+                                <td>${user.username}</td>
+                                <td>${user.email}</td>
+                                <td>${user.user_type}</td>
+                                <td>${user.full_name}</td>
+                                <td>
+                                    ${user.user_type !== 'admin' ? 
+                                        `<button class="btn btn-danger" onclick="deleteUser(${user.id})">Delete</button>` : 
+                                        'Admin'}
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        async function deleteUser(userId) {
+            if (!confirm('Are you sure you want to delete this user?')) return;
+
+            try {
+                const response = await fetch(`/api/admin/users/${userId}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    showAlert('User deleted successfully!');
+                    showAllUsers();
+                } else {
+                    showAlert('Failed to delete user.', 'error');
+                }
+            } catch (error) {
+                showAlert('Failed to delete user.', 'error');
+            }
+        }
+
+        async function showAllJobs() {
+            document.getElementById('admin-users').classList.add('hidden');
+            document.getElementById('admin-jobs').classList.remove('hidden');
+            document.getElementById('admin-applications').classList.add('hidden');
+
+            try {
+                const response = await fetch('/api/admin/jobs', {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayAdminJobs(data.jobs);
+                } else {
+                    showAlert('Failed to load jobs.', 'error');
+                }
+            } catch (error) {
+                showAlert('Failed to load jobs.', 'error');
+            }
+        }
+
+        function displayAdminJobs(jobs) {
+            const container = document.getElementById('admin-jobs-container');
+            
+            container.innerHTML = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Company</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${jobs.map(job => `
+                            <tr>
+                                <td>${job.title}</td>
+                                <td>${job.employer_name || 'N/A'}</td>
+                                <td>${job.location}</td>
+                                <td>${job.is_active ? 'Active' : 'Inactive'}</td>
+                                <td>
+                                    <button class="btn btn-danger" onclick="deleteJobAdmin(${job.id})">Delete</button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        async function deleteJobAdmin(jobId) {
+            if (!confirm('Are you sure you want to delete this job?')) return;
+
+            try {
+                const response = await fetch(`/api/admin/jobs/${jobId}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    showAlert('Job deleted successfully!');
+                    showAllJobs();
+                } else {
+                    showAlert('Failed to delete job.', 'error');
+                }
+            } catch (error) {
+                showAlert('Failed to delete job.', 'error');
+            }
+        }
+
+        async function showAllApplications() {
+            document.getElementById('admin-users').classList.add('hidden');
+            document.getElementById('admin-jobs').classList.add('hidden');
+            document.getElementById('admin-applications').classList.remove('hidden');
+
+            try {
+                const response = await fetch('/api/admin/applications', {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    displayAdminApplications(data.applications);
+                } else {
+                    showAlert('Failed to load applications.', 'error');
+                }
+            } catch (error) {
+                showAlert('Failed to load applications.', 'error');
+            }
+        }
+
+        function displayAdminApplications(applications) {
+            const container = document.getElementById('admin-applications-container');
+            
+            container.innerHTML = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Job Title</th>
+                            <th>Applicant</th>
+                            <th>Applied Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${applications.map(app => `
+                            <tr>
+                                <td>${app.job_title}</td>
+                                <td>${app.applicant_name}</td>
+                                <td>${new Date(app.applied_at).toLocaleDateString()}</td>
+                                <td>${app.status}</td>
+                                <td>
+                                    <button class="btn btn-danger" onclick="deleteApplication(${app.id})">Delete</button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        async function deleteApplication(applicationId) {
+            if (!confirm('Are you sure you want to delete this application?')) return;
+
+            try {
+                const response = await fetch(`/api/admin/applications/${applicationId}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    showAlert('Application deleted successfully!');
+                    showAllApplications();
+                } else {
+                    showAlert('Failed to delete application.', 'error');
+                }
+            } catch (error) {
+                showAlert('Failed to delete application.', 'error');
+            }
+        }
+    </script>
+</body>
+</html>
+
